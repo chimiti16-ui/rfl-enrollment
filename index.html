@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RFL | Formulário de Matrícula</title>
+  <style>
+    :root{
+      --blue:#0b1f4d;
+      --blue2:#0f3d91;
+      --red:#c1121f;
+      --white:#ffffff;
+      --soft:#f4f7fb;
+      --ink:#0f172a;
+      --muted:#64748b;
+      --line:#dbe3ef;
+    }
+
+    *{box-sizing:border-box}
+
+    body{
+      margin:0;
+      font-family:Arial, Helvetica, sans-serif;
+      background:linear-gradient(135deg,var(--blue),var(--blue2));
+      color:var(--ink);
+      min-height:100vh;
+      padding:32px 16px;
+    }
+
+    .page{
+      max-width:980px;
+      margin:0 auto;
+      background:var(--white);
+      border-radius:26px;
+      overflow:hidden;
+      box-shadow:0 25px 70px rgba(0,0,0,.28);
+    }
+
+    .hero{
+      background:linear-gradient(135deg,#071a42,#0b3d91);
+      color:white;
+      padding:34px 36px;
+      position:relative;
+    }
+
+    .badge{
+      display:inline-block;
+      background:rgba(255,255,255,.12);
+      border:1px solid rgba(255,255,255,.25);
+      padding:8px 14px;
+      border-radius:999px;
+      font-size:13px;
+      letter-spacing:.04em;
+      text-transform:uppercase;
+      margin-bottom:16px;
+    }
+
+    .hero h1{
+      margin:0;
+      font-size:36px;
+      line-height:1.05;
+      max-width:720px;
+    }
+
+    .hero p{
+      margin:14px 0 0;
+      color:#dbeafe;
+      font-size:17px;
+      max-width:760px;
+    }
+
+    .content{
+      display:grid;
+      grid-template-columns:1fr 320px;
+      gap:0;
+    }
+
+    .form-area{
+      padding:34px 36px 38px;
+    }
+
+    .side{
+      background:var(--soft);
+      padding:34px 28px;
+      border-left:1px solid var(--line);
+    }
+
+    .side-card{
+      background:white;
+      border:1px solid var(--line);
+      border-radius:20px;
+      padding:22px;
+      margin-bottom:18px;
+    }
+
+    .side-card h3{
+      margin:0 0 10px;
+      color:var(--blue);
+      font-size:18px;
+    }
+
+    .side-card p,
+    .side-card li{
+      color:var(--muted);
+      font-size:14px;
+      line-height:1.5;
+    }
+
+    .side-card ul{
+      padding-left:18px;
+      margin:10px 0 0;
+    }
+
+    .section-title{
+      margin:0 0 18px;
+      font-size:22px;
+      color:var(--blue);
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:18px;
+    }
+
+    .field{
+      margin-bottom:18px;
+    }
+
+    .field.full{
+      grid-column:1 / -1;
+    }
+
+    label{
+      display:block;
+      font-weight:700;
+      margin-bottom:7px;
+      color:#1e293b;
+      font-size:14px;
+    }
+
+    input, select, textarea{
+      width:100%;
+      padding:13px 14px;
+      border:1px solid #cbd5e1;
+      border-radius:14px;
+      font-size:15px;
+      outline:none;
+      transition:.2s;
+      background:white;
+    }
+
+    input:focus, select:focus, textarea:focus{
+      border-color:var(--blue2);
+      box-shadow:0 0 0 4px rgba(15,61,145,.12);
+    }
+
+    textarea{
+      min-height:100px;
+      resize:vertical;
+    }
+
+    .check{
+      display:flex;
+      gap:10px;
+      align-items:flex-start;
+      background:#f8fafc;
+      border:1px solid var(--line);
+      padding:14px;
+      border-radius:14px;
+      margin:20px 0;
+    }
+
+    .check input{
+      width:auto;
+      margin-top:3px;
+    }
+
+    .check span{
+      font-size:14px;
+      color:#334155;
+      line-height:1.45;
+    }
+
+    .btn{
+      width:100%;
+      border:none;
+      background:linear-gradient(135deg,var(--red),#ef233c);
+      color:white;
+      font-weight:800;
+      font-size:16px;
+      padding:16px 20px;
+      border-radius:16px;
+      cursor:pointer;
+      box-shadow:0 14px 30px rgba(193,18,31,.28);
+      transition:.2s;
+    }
+
+    .btn:hover{
+      transform:translateY(-1px);
+      box-shadow:0 18px 36px rgba(193,18,31,.35);
+    }
+
+    .btn:disabled{
+      opacity:.65;
+      cursor:not-allowed;
+      transform:none;
+    }
+
+    .status{
+      margin-top:16px;
+      padding:14px;
+      border-radius:14px;
+      display:none;
+      font-size:14px;
+      line-height:1.45;
+    }
+
+    .status.success{
+      display:block;
+      background:#ecfdf5;
+      color:#065f46;
+      border:1px solid #a7f3d0;
+    }
+
+    .status.error{
+      display:block;
+      background:#fef2f2;
+      color:#991b1b;
+      border:1px solid #fecaca;
+    }
+
+    .footer-note{
+      margin-top:18px;
+      font-size:12px;
+      color:var(--muted);
+      text-align:center;
+    }
+
+    @media(max-width:850px){
+      .content{grid-template-columns:1fr}
+      .side{border-left:none;border-top:1px solid var(--line)}
+      .grid{grid-template-columns:1fr}
+      .hero h1{font-size:30px}
+      .form-area,.hero{padding:28px 22px}
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero">
+      <div class="badge">Real Fluency League</div>
+      <h1>Formulário de Matrícula</h1>
+      <p>Preencha suas informações para que possamos organizar seu plano de estudos, confirmar sua turma e orientar o próximo passo.</p>
+    </section>
+
+    <section class="content">
+      <div class="form-area">
+        <h2 class="section-title">Dados do aluno</h2>
+
+        <form id="enrollmentForm">
+          <div class="grid">
+            <div class="field">
+              <label for="nome">Nome completo *</label>
+              <input id="nome" name="nome" type="text" required />
+            </div>
+
+            <div class="field">
+              <label for="email">E-mail *</label>
+              <input id="email" name="email" type="email" required />
+            </div>
+
+            <div class="field">
+              <label for="telefone">WhatsApp / Telefone *</label>
+              <input id="telefone" name="telefone" type="tel" required />
+            </div>
+
+            <div class="field">
+              <label for="pais">País onde mora *</label>
+              <select id="pais" name="pais" required>
+                <option value="">Selecione</option>
+                <option>Estados Unidos</option>
+                <option>Brasil</option>
+                <option>Canadá</option>
+                <option>Outro</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="nivel">Nível atual de inglês *</label>
+              <select id="nivel" name="nivel" required>
+                <option value="">Selecione</option>
+                <option>Beginner / Iniciante</option>
+                <option>Novice High</option>
+                <option>Intermediate Low</option>
+                <option>Intermediate Mid</option>
+                <option>Advanced</option>
+                <option>Não sei meu nível</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="plano">Plano desejado *</label>
+              <select id="plano" name="plano" required>
+                <option value="">Selecione</option>
+                <option>Aula experimental</option>
+                <option>Grupo</option>
+                <option>Pacote casal / família</option>
+                <option>VIP individual</option>
+                <option>Ainda quero orientação</option>
+              </select>
+            </div>
+
+            <div class="field full">
+              <label for="objetivo">Qual é seu principal objetivo com o inglês? *</label>
+              <textarea id="objetivo" name="objetivo" required placeholder="Ex: conseguir conversar no trabalho, ir ao médico, fazer entrevistas, viajar, destravar a fala..."></textarea>
+            </div>
+
+            <div class="field full">
+              <label for="disponibilidade">Melhores dias e horários para aula</label>
+              <textarea id="disponibilidade" name="disponibilidade" placeholder="Ex: Segunda e quarta depois das 7 PM; sábado de manhã..."></textarea>
+            </div>
+
+            <div class="field full">
+              <label for="observacoes">Observações importantes</label>
+              <textarea id="observacoes" name="observacoes" placeholder="Conte aqui qualquer detalhe importante sobre sua rotina, dificuldade, urgência ou preferência."></textarea>
+            </div>
+          </div>
+
+          <label class="check">
+            <input type="checkbox" name="aceite" value="Sim" required />
+            <span>Confirmo que as informações acima são verdadeiras e autorizo o contato da Real Fluency League para orientação, matrícula e próximos passos.</span>
+          </label>
+
+          <button class="btn" id="submitBtn" type="submit">Enviar matrícula</button>
+          <div id="status" class="status"></div>
+          <p class="footer-note">Após o envio, você poderá receber o link de pagamento, contrato e instruções de acesso às aulas.</p>
+        </form>
+      </div>
+
+      <aside class="side">
+        <div class="side-card">
+          <h3>Próximo passo</h3>
+          <p>Depois que você enviar o formulário, seus dados serão salvos no Google Sheets para acompanhamento.</p>
+        </div>
+
+        <div class="side-card">
+          <h3>O que avaliamos</h3>
+          <ul>
+            <li>Seu nível atual</li>
+            <li>Objetivo principal</li>
+            <li>Melhor plano ou turma</li>
+            <li>Disponibilidade de horário</li>
+          </ul>
+        </div>
+
+        <div class="side-card">
+          <h3>Real Fluency League</h3>
+          <p>Inglês prático para situações reais, com foco em compreensão, fala e confiança.</p>
+        </div>
+      </aside>
+    </section>
+  </main>
+
+  <script>
+    // 1) Crie o Google Apps Script.
+    // 2) Publique como Web App.
+    // 3) Cole a URL do Web App abaixo.
+    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyei3FIGv2_Gsn0k0HjjrKfQUZQqOutRDku9pp7O389stB2QqTxzMnXcE6dEdjVvAPW1Q/exec";
+
+    const form = document.getElementById("enrollmentForm");
+    const statusBox = document.getElementById("status");
+    const submitBtn = document.getElementById("submitBtn");
+
+    form.addEventListener("submit", async function(event){
+      event.preventDefault();
+
+      statusBox.className = "status";
+      statusBox.textContent = "";
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Enviando...";
+
+      const formData = new FormData(form);
+      const data = Object.fromEntries(formData.entries());
+      data.dataEnvio = new Date().toLocaleString("pt-BR");
+
+      try{
+        await fetch(GOOGLE_SCRIPT_URL, {
+          method:"POST",
+          mode:"no-cors",
+          headers:{"Content-Type":"application/json"},
+          body:JSON.stringify(data)
+        });
+
+        statusBox.className = "status success";
+        statusBox.textContent = "Matrícula enviada com sucesso! Em breve entraremos em contato com os próximos passos.";
+        form.reset();
+      }catch(error){
+        statusBox.className = "status error";
+        statusBox.textContent = "Não foi possível enviar agora. Por favor, tente novamente ou entre em contato pelo WhatsApp.";
+      }finally{
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Enviar matrícula";
+      }
+    });
+  </script>
+
+  <!--
+  GOOGLE APPS SCRIPT PARA COLAR NO SEU GOOGLE SHEETS
+
+  1. Abra seu Google Sheets.
+  2. Vá em Extensions > Apps Script.
+  3. Apague tudo e cole o código abaixo.
+  4. Clique em Deploy > New deployment.
+  5. Escolha Web app.
+  6. Execute as: Me.
+  7. Who has access: Anyone.
+  8. Copie a Web App URL e cole no HTML em GOOGLE_SCRIPT_URL.
+
+  Código:
+
+  function doPost(e) {
+    const sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+    const data = JSON.parse(e.postData.contents);
+
+    sheet.appendRow([
+      new Date(),
+      data.nome || '',
+      data.email || '',
+      data.telefone || '',
+      data.pais || '',
+      data.nivel || '',
+      data.plano || '',
+      data.objetivo || '',
+      data.disponibilidade || '',
+      data.observacoes || '',
+      data.aceite || ''
+    ]);
+
+    return ContentService
+      .createTextOutput(JSON.stringify({ result: 'success' }))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+  -->
+</body>
+</html>
